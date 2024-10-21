@@ -13,6 +13,11 @@
   "keywords": [
     "j"
   ],
+  "dependencies": {
+    "@capacitor/core": "^<version>",
+    "@capacitor/ios": "^<version>",
+    // otras dependencias
+  },
   "author": "k",
   "license": "ISC"
 }
