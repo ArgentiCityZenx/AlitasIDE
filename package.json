@@ -14,8 +14,8 @@
     "j"
   ],
   "dependencies": {
-    "@capacitor/core": "^<version>",
-    "@capacitor/ios": "^<version>"
+    "@capacitor/core": "^3.0.0",
+    "@capacitor/ios": "^3.0.0"
   },
   "author": "k",
   "license": "ISC"
