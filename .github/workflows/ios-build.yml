@@ -1,0 +1,52 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      # Paso 1: Clonar el repositorio
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      # Paso 2: Instalar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Usa la versión de Node.js que prefieras
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Paso 4: Sincronizar Capacitor
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      # Paso 5: Instalar CocoaPods
+      - name: Install CocoaPods
+        run: |
+          cd ios/App
+          pod install
+
+      # Paso 6: Compilar el proyecto iOS
+      - name: Build iOS project
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -sdk iphoneos \
+            -configuration Release \
+            archive -archivePath ios/App/build/App.xcarchive
+
+      # Paso 7: Exportar el archivo .ipa (app iOS)
+      - name: Export .ipa file
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ios/App/build/App.xcarchive \
+            -exportOptionsPlist ios/App/ExportOptions.plist \
+            -exportPath ios/App/build
